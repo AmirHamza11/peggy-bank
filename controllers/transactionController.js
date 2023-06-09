@@ -7,7 +7,32 @@ import {
   serverTimestamp,
   addDoc,
   updateDoc,
+  or,
 } from "firebase/firestore";
+
+const getAllTransactions = async (req, res) => {
+  try {
+    const { account_id } = req.query;
+    const q = query(
+      collection(db, "transactions"),
+      or(
+        where("sender_id", "==", account_id),
+        where("receiver_id", "==", account_id)
+      )
+    );
+    const querySnapshot = await getDocs(q);
+    const transactions = [];
+    querySnapshot.forEach((doc) => {
+      transactions.push(doc.data());
+    });
+    res.status(200).json({
+      status: "success",
+      data: transactions,
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 const createTransaction = async (req, res) => {
   try {
@@ -58,15 +83,13 @@ const createTransaction = async (req, res) => {
       transaction_id: docRef.id,
     });
 
-    res
-      .status(200)
-      .json({
-        status: "successful",
-        message: "Transaction created successfully",
-      });
+    res.status(200).json({
+      status: "successful",
+      message: "Transaction created successfully",
+    });
   } catch (e) {
     console.log(e);
   }
 };
 
-export { createTransaction };
+export { getAllTransactions, createTransaction };

@@ -5,7 +5,6 @@ import morgan from "morgan";
 
 // routes
 import authRouter from "./routes/authRoutes.js";
-import dashboardRouter from "./routes/dashboardRoutes.js";
 import transactionRouter from "./routes/transactionRoutes.js";
 import notFoundMiddleware from "./middlewares/not-found.js";
 // import db from "./db.js";
@@ -20,7 +19,6 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/dashboard", dashboardRouter);
 app.use("/api/v1/transaction", transactionRouter);
 
 app.get("/", (req, res) => {
