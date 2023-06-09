@@ -1,4 +1,4 @@
-import db from "../../db.js";
+import db from "../db.js";
 
 import { collection, query, getDocs, where } from "firebase/firestore";
 
@@ -19,19 +19,16 @@ const login = async (req, res) => {
         .json({ status: "failure", message: "Invalid account id or pin code" });
     } else {
       querySnapshot.forEach((doc) => {
-        res
-          .status(200)
-          .json({
-            status: "success",
-            data: {
-              account_id: doc.data().account_id,
-              balance: doc.data().balance,
-            },
-          });
+        res.status(200).json({
+          status: "success",
+          data: {
+            account_id: doc.data().account_id,
+            balance: doc.data().balance,
+          },
+        });
       });
     }
   } catch (e) {}
-  db.res.json({ message: "Login" });
 };
 
 export { login };

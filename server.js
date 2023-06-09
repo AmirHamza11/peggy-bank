@@ -4,8 +4,9 @@ import cors from "cors";
 import morgan from "morgan";
 
 // routes
-import bankAuthRoute from "./routes/bank/authRoutes.js";
-import bankDashboardRoute from "./routes/bank/dashboardRoutes.js";
+import authRouter from "./routes/authRoutes.js";
+import dashboardRouter from "./routes/dashboardRoutes.js";
+import transactionRouter from "./routes/transactionRoutes.js";
 import notFoundMiddleware from "./middlewares/not-found.js";
 // import db from "./db.js";
 // import { collection, addDoc } from "firebase/firestore";
@@ -18,8 +19,9 @@ if (process.env.NODE_ENV !== "production") {
   app.use(morgan("dev"));
 }
 
-app.use("/api/bank/auth", bankAuthRoute);
-app.use("/api/bank/dashboard", bankDashboardRoute);
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/dashboard", dashboardRouter);
+app.use("/api/v1/transaction", transactionRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
@@ -40,7 +42,7 @@ app.use(notFoundMiddleware);
 //   }
 // });
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
   console.log(`Bank listening at http://localhost:${process.env.PORT}`);
