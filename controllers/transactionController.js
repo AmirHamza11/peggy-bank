@@ -8,6 +8,7 @@ import {
   addDoc,
   updateDoc,
   or,
+  and,
 } from "firebase/firestore";
 
 const getAllTransactions = async (req, res) => {
@@ -36,19 +37,23 @@ const getAllTransactions = async (req, res) => {
 
 const createTransaction = async (req, res) => {
   try {
-    const { senderId, receiverId, amount } = req.body;
+    const { sender_id, receiver_id, amount, sender_pin } = req.body;
     let senderName = "";
     let receiverName = "";
 
     const q = query(
       collection(db, "bank_users"),
-      where("account_id", "==", senderId)
+      and(
+        where("account_id", "==", sender_id),
+        where("pin_code", "==", sender_pin)
+      )
     );
     const querySnapshot = await getDocs(q);
     if (querySnapshot.empty) {
       res
         .status(402)
         .json({ status: "failure", message: "Invalid sender account" });
+      return;
     }
     querySnapshot.forEach((doc) => {
       senderName = doc.data().name;
@@ -56,21 +61,22 @@ const createTransaction = async (req, res) => {
 
     const q2 = query(
       collection(db, "bank_users"),
-      where("account_id", "==", receiverId)
+      where("account_id", "==", receiver_id)
     );
     const querySnapshot2 = await getDocs(q2);
     if (querySnapshot2.empty) {
       res
         .status(402)
         .json({ status: "failure", message: "Invalid receiver account" });
+      return;
     }
     querySnapshot2.forEach((doc) => {
       receiverName = doc.data().name;
     });
 
     const data = {
-      sender_id: senderId,
-      receiver_id: receiverId,
+      sender_id: sender_id,
+      receiver_id: receiver_id,
       sender_name: senderName,
       receiver_name: receiverName,
       amount: amount,
@@ -85,7 +91,9 @@ const createTransaction = async (req, res) => {
 
     res.status(200).json({
       status: "successful",
-      message: "Transaction created successfully",
+      data: {
+        transaction_id: docRef.id,
+      },
     });
   } catch (e) {
     console.log(e);

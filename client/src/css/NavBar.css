@@ -1,0 +1,37 @@
+.nav-bar {
+  height: 5rem;
+  background-color: #685454;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+.button {
+  background-color: #ea8a8a;
+
+  width: 12rem;
+  height: 2rem;
+  border-radius: 0.8rem;
+  font-size: 1.4rem;
+  font-weight: bold;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  text-align: center;
+  color: white;
+}
+.logout {
+  color: black;
+  text-decoration: none;
+}
+.button:hover {
+  background-color: #e97575;
+  cursor: pointer;
+}
+
+.website-name {
+  font-size: 2.6rem;
+  width: 100%;
+  color: white;
+  font-family: "Pangolin", cursive;
+}
