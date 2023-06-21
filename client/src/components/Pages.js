@@ -61,22 +61,38 @@ const Pages = ({ data }) => {
                             </div>
                             <br />
                             <div className="sender">
-                              Sender Account: <br />
-                              {data[i].sender_id}
+                              {bank_account_id === data[i].sender_id
+                                ? "Receiver"
+                                : "Sender"}{" "}
+                              Account: <br />
+                              {bank_account_id === data[i].sender_id
+                                ? data[i].receiver_id
+                                : data[i].sender_id}
                             </div>
                           </div>
                           <p className="date">({formattedDate})</p>
                         </div>
                         <div>
                           <p className="sender-name">
-                            Sender Name:
+                            {bank_account_id === data[i].sender_id
+                              ? "Receiver"
+                              : "Sender"}{" "}
+                            Name:
                             <br />
-                            {data[i].sender_name}
+                            {bank_account_id === data[i].sender_id
+                              ? data[i].receiver_id
+                              : data[i].sender_name}
                           </p>
                         </div>
                         <div>
                           <div>
-                            <div className="status">
+                            <div
+                              className={
+                                bank_account_id === data[i].sender_id
+                                  ? "status-sent"
+                                  : "status"
+                              }
+                            >
                               {bank_account_id === data[i].sender_id
                                 ? "Sent"
                                 : "Received"}

@@ -9,6 +9,7 @@ import {
   updateDoc,
   or,
   and,
+  orderBy,
 } from "firebase/firestore";
 
 const getAllTransactions = async (req, res) => {
@@ -19,7 +20,8 @@ const getAllTransactions = async (req, res) => {
       or(
         where("sender_id", "==", account_id),
         where("receiver_id", "==", account_id)
-      )
+      ),
+      orderBy("created_at", "desc")
     );
     const querySnapshot = await getDocs(q);
     const transactions = [];
@@ -57,6 +59,16 @@ const createTransaction = async (req, res) => {
     }
     querySnapshot.forEach((doc) => {
       senderName = doc.data().name;
+      if (doc.data().balance < amount) {
+        res
+          .status(402)
+          .json({ status: "failure", message: "Insufficient balance" });
+      }
+      return;
+    });
+
+    await updateDoc(querySnapshot.docs[0].ref, {
+      balance: querySnapshot.docs[0].data().balance - amount,
     });
 
     const q2 = query(
@@ -72,6 +84,10 @@ const createTransaction = async (req, res) => {
     }
     querySnapshot2.forEach((doc) => {
       receiverName = doc.data().name;
+    });
+
+    await updateDoc(querySnapshot2.docs[0].ref, {
+      balance: querySnapshot2.docs[0].data().balance + amount,
     });
 
     const data = {

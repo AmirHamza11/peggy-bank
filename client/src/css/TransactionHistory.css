@@ -34,9 +34,11 @@
   font-size: 1.6rem;
   font-weight: bold;
   padding-left: 2rem;
+  margin-top: 1rem;
 }
 .sender {
   font-size: 1.1rem;
+  margin-top: 0.3rem;
   padding-left: 2rem;
 }
 .date {
@@ -55,9 +57,20 @@
   padding-right: 2rem;
   color: #ba4e62;
   text-align: end;
+  margin-top: 1rem;
+}
+
+.status-sent {
+  font-size: 1.8rem;
+  font-weight: bold;
+  padding-right: 2rem;
+  color: #685454;
+  text-align: end;
+  margin-top: 1rem;
 }
 .cost {
   font-size: 1.6rem;
+  margin-top: 0.2rem;
   font-weight: bold;
   padding-right: 2rem;
   text-align: end;

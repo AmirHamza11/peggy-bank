@@ -4,7 +4,7 @@ const Balance = () => {
     <div className="balance-card">
       <div className="title">
         BALANCE <br />
-        <div className="balance">{balance}</div>
+        <div className="balance">{balance} tk</div>
       </div>
     </div>
   );
